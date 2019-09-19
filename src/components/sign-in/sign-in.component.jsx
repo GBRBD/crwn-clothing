@@ -1,9 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
+
 import FormInput from '../form-input/form-input.component';
+import CustomButton from '../custom-button/custom-button.component';
 
-import './sign-in.component.scss';
+import './sign-in.styles.scss';
 
-export class SignIn extends Component {
+class SignIn extends React.Component {
   constructor(props) {
     super(props);
 
@@ -21,36 +23,34 @@ export class SignIn extends Component {
 
   handleChange = event => {
     const { value, name } = event.target;
+
     this.setState({ [name]: value });
   };
 
   render() {
-    const { email, password } = this.state;
-
     return (
-      <div className='sign-in' onSubmit={this.handleSubmit}>
+      <div className='sign-in'>
         <h2>I already have an account</h2>
         <span>Sign in with your email and password</span>
-        <form>
+
+        <form onSubmit={this.handleSubmit}>
           <FormInput
-            type='email'
             name='email'
+            type='email'
+            handleChange={this.handleChange}
+            value={this.state.email}
             label='email'
-            value={email}
             required
-            handleChange={this.handleChange}
           />
-          <label>Email</label>
           <FormInput
-            type='password'
             name='password'
-            label='password'
-            value={password}
-            required
+            type='password'
+            value={this.state.password}
             handleChange={this.handleChange}
+            label='password'
+            required
           />
-          <label>Password</label>
-          <input type='submit' value='Submit Form' />
+          <CustomButton type='submit'> Sign in </CustomButton>
         </form>
       </div>
     );
