@@ -2,6 +2,8 @@ import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
+import { jsxEmptyExpression, tsMethodSignature } from '@babel/types';
+import { pipeline } from 'stream';
 
 import './App.css';
 
@@ -13,18 +15,19 @@ import CheckoutPage from './pages/checkout/checkout.component';
 import Header from './components/header/header.component';
 
 import { selectCurrentUser } from './redux/user/user.selectors';
+import { checkUserSession } from './redux/user/user.actions';
 
 class App extends React.Component {
-  // unsubscribeFromAuth = null;
+  unsubscribeFromAuth = null;
 
-  // componentDidMount() {
-  //   const { checkUserSession } = this.props;
-  //   checkUserSession();
-  // }
+  componentDidMount() {
+    const { checkUserSession } = this.props;
+    checkUserSession();
+  }
 
-  // componentWillUnmount() {
-  //   this.unsubscribeFromAuth();
-  // }
+  componentWillUnmount() {
+    this.unsubscribeFromAuth();
+  }
 
   render() {
     return (
@@ -51,11 +54,11 @@ const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser
 });
 
-// const mapDispatchToProps = dispatch => ({
-//   checkUserSession: () => dispatch(checkUserSession())
-// });
+const mapDispatchToProps = dispatch => ({
+  checkUserSession: () => dispatch(checkUserSession())
+});
 
 export default connect(
-  mapStateToProps
-  // mapDispatchToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(App);
